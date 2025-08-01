@@ -78,8 +78,9 @@
     <ClCompile>
       <Optimization>Disabled</Optimization>
       <PreprocessorDefinitions>_DEBUG;%(PreprocessorDefinitions)</PreprocessorDefinitions>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Karyasthal\Temp Work\JavaNativeWrapper\JavaNativeWrapper\header;C:\Program Files\Eclipse Adoptium\jdk-21.0.5.11-hotspot\include;C:\Program Files\Eclipse Adoptium\jdk-21.0.5.11-hotspot\include\win32;C:\Program Files\Eclipse Adoptium\jdk-21.0.5.11-hotspot\include\win32;C:\Program Files\Eclipse Adoptium\jdk-21.0.5.11-hotspot\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">D:\Karyasthal\git-repos\Java-Native-Wrapper\JavaNativeWrapper\JavaNativeWrapper\header;C:\Program Files\Eclipse Adoptium\jdk-21.0.5.11-hotspot\include;C:\Program Files\Eclipse Adoptium\jdk-21.0.5.11-hotspot\include\win32;C:\Program Files\Eclipse Adoptium\jdk-21.0.5.11-hotspot\include\win32;C:\Program Files\Eclipse Adoptium\jdk-21.0.5.11-hotspot\include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">stdcpp20</LanguageStandard>
+      <AdditionalUsingDirectories Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
@@ -101,8 +102,9 @@
       <ExceptionHandling Condition="'$(Configuration)|$(Platform)'=='Release|x64'">false</ExceptionHandling>
       <RuntimeLibrary Condition="'$(Configuration)|$(Platform)'=='Release|x64'">MultiThreaded</RuntimeLibrary>
       <BufferSecurityCheck Condition="'$(Configuration)|$(Platform)'=='Release|x64'">true</BufferSecurityCheck>
-      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Karyasthal\Temp Work\JavaNativeWrapper\JavaNativeWrapper\header;C:\Program Files\Eclipse Adoptium\jdk-21.0.5.11-hotspot\include;C:\Program Files\Eclipse Adoptium\jdk-21.0.5.11-hotspot\include\win32;</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">D:\Karyasthal\git-repos\Java-Native-Wrapper\JavaNativeWrapper\JavaNativeWrapper\header;C:\Program Files\Eclipse Adoptium\jdk-21.0.5.11-hotspot\include;C:\Program Files\Eclipse Adoptium\jdk-21.0.5.11-hotspot\include\win32;</AdditionalIncludeDirectories>
       <LanguageStandard Condition="'$(Configuration)|$(Platform)'=='Release|x64'">stdcpp20</LanguageStandard>
+      <AdditionalUsingDirectories Condition="'$(Configuration)|$(Platform)'=='Release|x64'">%(AdditionalUsingDirectories)</AdditionalUsingDirectories>
     </ClCompile>
     <Link>
       <SubSystem>Windows</SubSystem>
