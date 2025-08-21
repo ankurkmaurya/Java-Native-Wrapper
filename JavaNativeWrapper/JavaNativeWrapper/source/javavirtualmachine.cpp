@@ -119,7 +119,7 @@ bool static createJVM(JavaVM*& jvm, JNIEnv*& env,
     
 
     JavaVMInitArgs vm_args;
-    vm_args.version = JNI_VERSION_1_8;
+    vm_args.version = JNI_VERSION_10;
     vm_args.nOptions = vm_option_size;
     vm_args.options = options;
     vm_args.ignoreUnrecognized = true;
