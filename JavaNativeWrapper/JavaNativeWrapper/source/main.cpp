@@ -109,6 +109,33 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
         FileUtil::redirectConsoleToLogFile();
     }
 
+
+    //Check if the application configured to be run with Administrator priviledges.
+    if (AppConfiguration::getRunJNWWithAdminPrivilege()) {
+        Logger::log(LogLevel::INFO, "Checking, Application need to be started with Admin priviledges.");
+
+        BOOL isAdmin = FALSE;
+        HANDLE token = nullptr;
+        if (OpenProcessToken(GetCurrentProcess(), TOKEN_QUERY, &token)) {
+            TOKEN_ELEVATION elevation;
+            DWORD size;
+
+            if (GetTokenInformation(token, TokenElevation, &elevation, sizeof(elevation), &size)) {
+                isAdmin = elevation.TokenIsElevated;
+            }
+            CloseHandle(token);
+        }
+
+        if (!isAdmin) {
+            Logger::log(LogLevel::ERR, "Application is not started with Admin priviledge, Stopping the application.");
+            exit(EXIT_FAILURE);
+        }
+        else {
+            Logger::log(LogLevel::ERR, "Application is started with Admin priviledge.");
+        }
+    }
+
+
     ServiceControlManager::logEnabled = log_enabled;
     if (serviceMode == -1) {
         ServiceControlManager::svcUnInstall();

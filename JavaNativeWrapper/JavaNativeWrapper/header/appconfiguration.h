@@ -13,7 +13,9 @@
 #define CONFIG_FILE_NAME         "config"
 #define CONFIG_FILE_EXTENSION    ".config"
 
-#define JNW_ENABLE_SYS_OUT_LOG    "jnw.enable.system.out.logging="
+#define JNW_ENABLE_SYS_OUT_LOG          "jnw.enable.system.out.logging="
+#define JNW_RUN_WITH_ADMIN_PRIVILEGE   "jnw.run.with.admin.privilege="
+
 #define JNW_SERVICE_NAME          "jnw.service.name="
 #define JNW_SERVICE_NAME_DISPLAY  "jnw.service.name.display="
 #define JNW_SERVICE_DESCRIPTION   "jnw.service.description="
@@ -33,6 +35,7 @@ private:
     
     static const std::string configFileExtension;
     static const std::string keyJNWEnableSysOutLog;
+    static const std::string keyJNWRunWithAdminPrivelege;
     static const std::string keyJNWServiceName;
     static const std::string keyJNWServiceNameDisplay;
     static const std::string keyJNWServiceDescription;
@@ -45,6 +48,7 @@ private:
 
     static std::string configFileName;
     static bool enableJNWSysOutLog;
+    static bool runJNWWithAdminPrivilege;
     static bool showCoutConsole;
     static std::string jnwServiceName;
     static std::string jnwServiceNameDisplay;
@@ -57,6 +61,7 @@ private:
 
 public:
     static bool getEnableJNWSysOutLog();
+    static bool getRunJNWWithAdminPrivilege();
     static bool getShowCoutConsole();
     static std::string getConfigFileExtension();
 
@@ -72,6 +77,7 @@ public:
     static void initializeAppConfiguration(bool log_enabled);
     static void setShowCoutConsole(bool showCoutConsole);
     static void setEnableJNWSysOutLog(bool enableJNWSysOutLog);
+    static void setRunJNWWithAdminPrivilege(bool runJNWWithAdminPrivilege);
     static void setConfigFileName(std::string configFileName);
 
 };

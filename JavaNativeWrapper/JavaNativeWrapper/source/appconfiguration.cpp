@@ -6,6 +6,7 @@
 
 const std::string AppConfiguration::configFileExtension = CONFIG_FILE_EXTENSION;
 const std::string AppConfiguration::keyJNWEnableSysOutLog = JNW_ENABLE_SYS_OUT_LOG;
+const std::string AppConfiguration::keyJNWRunWithAdminPrivelege = JNW_RUN_WITH_ADMIN_PRIVILEGE;
 const std::string AppConfiguration::keyJNWServiceName = JNW_SERVICE_NAME;
 const std::string AppConfiguration::keyJNWServiceNameDisplay = JNW_SERVICE_NAME_DISPLAY;
 const std::string AppConfiguration::keyJNWServiceDescription = JNW_SERVICE_DESCRIPTION;
@@ -19,6 +20,7 @@ const std::string AppConfiguration::keyJarFilePath = JAR_FILE_PATH;
 
 std::string AppConfiguration::configFileName = CONFIG_FILE_NAME;
 bool AppConfiguration::enableJNWSysOutLog = false;
+bool AppConfiguration::runJNWWithAdminPrivilege = false;
 bool AppConfiguration::showCoutConsole = false;
 std::string AppConfiguration::jnwServiceName = "";
 std::string AppConfiguration::jnwServiceNameDisplay = "";
@@ -31,6 +33,7 @@ std::string AppConfiguration::mainMethodArguments = "";
 
 
 bool AppConfiguration::getEnableJNWSysOutLog() { return AppConfiguration::enableJNWSysOutLog; }
+bool AppConfiguration::getRunJNWWithAdminPrivilege() { return AppConfiguration::runJNWWithAdminPrivilege; }
 bool AppConfiguration::getShowCoutConsole() { return AppConfiguration::showCoutConsole; }
 std::string AppConfiguration::getConfigFileExtension() { return AppConfiguration::configFileExtension; }
 std::string AppConfiguration::getJnwServiceName() { return AppConfiguration::jnwServiceName; }
@@ -51,6 +54,10 @@ void AppConfiguration::setEnableJNWSysOutLog(bool enableJNWSysOutLog) {
     AppConfiguration::enableJNWSysOutLog = enableJNWSysOutLog;
 }
 
+void AppConfiguration::setRunJNWWithAdminPrivilege(bool runJNWWithAdminPrivilege) {
+    AppConfiguration::runJNWWithAdminPrivilege = runJNWWithAdminPrivilege;
+}
+
 void AppConfiguration::setConfigFileName(std::string configFileName) {
     AppConfiguration::configFileName = configFileName;
 }
@@ -67,6 +74,20 @@ void AppConfiguration::initializeAppConfiguration(bool log_enabled) {
             jnwEnableSysOutLog.compare("Yes") == 0 ||
             jnwEnableSysOutLog.compare("YES") == 0) {
             AppConfiguration::setEnableJNWSysOutLog(true);
+        }
+    }
+
+    //jnw.run.with.admin.priviledge
+    std::string jnwRunWithAdminPrivilege = ConfigUtil::getConfigValue(configFileName, keyJNWRunWithAdminPrivelege);
+    if (jnwRunWithAdminPrivilege.compare("") == 0) {
+        log_enabled&& Logger::log(LogLevel::WARN, "'jnw.run.with.admin.priviledge' configuration not found");
+    }
+    else {
+        log_enabled&& Logger::log(LogLevel::INFO, "'jnw.run.with.admin.priviledge' configuration found: {}", jnwRunWithAdminPrivilege);
+        if (jnwRunWithAdminPrivilege.compare("yes") == 0 ||
+            jnwRunWithAdminPrivilege.compare("Yes") == 0 ||
+            jnwRunWithAdminPrivilege.compare("YES") == 0) {
+            AppConfiguration::setRunJNWWithAdminPrivilege(true);
         }
     }
 
@@ -127,7 +148,6 @@ void AppConfiguration::initializeAppConfiguration(bool log_enabled) {
         log_enabled && Logger::log(LogLevel::INFO, "'java.vm.arguments' configuration found: {}", AppConfiguration::javaVMArguments);
     }
 
-
     //java.class.file.path
     std::string javaClassFilePath = ConfigUtil::getConfigValue(configFileName, keyJavaClassFilePath);
     if (javaClassFilePath.compare("") == 0) {
@@ -137,7 +157,6 @@ void AppConfiguration::initializeAppConfiguration(bool log_enabled) {
         log_enabled && Logger::log(LogLevel::INFO, "'java.class.file.path' configuration found: {}", javaClassFilePath);
         AppConfiguration::javaBinaryPath = javaClassFilePath;
     }
-
 
     //jar.file.path
     std::string jarFilePath = ConfigUtil::getConfigValue(configFileName, keyJarFilePath);
@@ -183,4 +202,8 @@ void AppConfiguration::initializeAppConfiguration(bool log_enabled) {
         log_enabled && Logger::log(LogLevel::INFO, "'main.method.arguments' configuration found : {}", AppConfiguration::mainMethodArguments);
     }
 }
+
+
+
+
 
