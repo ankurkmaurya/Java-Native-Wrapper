@@ -33,8 +33,11 @@ HANDLE ServiceControlManager::ghSvcStopEvent;
  *
  */
 void ServiceControlManager::runServiceInConsoleMode(const std::string& serviceName) {
-    //First enable Console for logging
-    AppUtil::enableConsole();
+    if (AppConfiguration::getEnableJNWConsole()) {
+        //Enable Console if configured
+        AppUtil::enableConsole();
+        AppConfiguration::setShowCoutConsole(true);
+    }
 
     ServiceControlManager::logEnabled && Logger::log(LogLevel::INFO, "Service '{}' is running in test/console mode", serviceName);
     JavaVirtualMachine::startJavaVirtualMachine(ServiceControlManager::logEnabled);
@@ -482,6 +485,7 @@ void ServiceControlManager::svcInit(DWORD dwArgc, LPTSTR* lpszArgv)
 */
 static void WINAPI svcMain(DWORD dwArgc, LPWSTR* lpszArgv)
 {
+    ServiceControlManager::logEnabled && Logger::log(LogLevel::ERR, "Application is started by Service Control Manager (SCM).");
     // Register the handler function for the service
     ServiceControlManager::gSvcStatusHandle = RegisterServiceCtrlHandler(
         ServiceControlManager::serviceName,
@@ -524,10 +528,10 @@ void ServiceControlManager::dispatchServiceProcess() {
 
     // This call returns when the service has stopped. 
     // The process should simply terminate when the call returns.
-    if (!StartServiceCtrlDispatcher(dispatchTable))
-    {
+    if (!StartServiceCtrlDispatcher(dispatchTable)) {
         DWORD err = GetLastError();
         if (err == ERROR_FAILED_SERVICE_CONTROLLER_CONNECT) {
+            ServiceControlManager::logEnabled && Logger::log(LogLevel::ERR, "Failed to Connect to Service Controller ({})", err);
             // Not started by SCM — likely run manually
             runServiceInConsoleMode(serviceNameStr);
         }
