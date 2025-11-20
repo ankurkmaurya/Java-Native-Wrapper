@@ -54,6 +54,16 @@ namespace AppUtil {
 
 
     std::string findJVMDLLPath(bool log_enabled) {
+        //Check 'jre' folder located within the executable folder
+        std::filesystem::path exeModulePath = AppUtil::getExecutableModulePath();
+        std::filesystem::path jreFolderPath = std::filesystem::path(exeModulePath.parent_path()) / "jre";
+        std::string jre_path_java_home = checkJVMDLLFileExists(jreFolderPath.string());
+        if (jre_path_java_home.compare("") != 0) {
+            log_enabled&& Logger::log(LogLevel::INFO, "JVMDLL found from 'jre' folder in same parent directory.");
+            return jre_path_java_home;
+        }
+
+
         //Check 'JAVA_HOME' environment variable
         std::string env_JAVA_HOME_Val = checkJVMDLLFileExists(AppUtil::getEnvVar("JAVA_HOME"));
         if (env_JAVA_HOME_Val.compare("") != 0) {
@@ -85,6 +95,7 @@ namespace AppUtil {
         return std::string("");
     }
 
+
     void enableConsole() {
         //Attach Console to this process
         AllocConsole();
@@ -95,6 +106,14 @@ namespace AppUtil {
         freopen_s(&pCin, "CONIN$", "r", stdin);
         std::cout.clear();
         std::cin.clear();
+    }
+
+
+    std::filesystem::path getExecutableModulePath() {
+        char exePath[MAX_PATH];
+        GetModuleFileNameA(NULL, exePath, MAX_PATH);
+        std::filesystem::path p(exePath);
+        return p;
     }
 
 }

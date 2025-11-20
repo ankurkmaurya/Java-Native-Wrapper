@@ -16,6 +16,9 @@ namespace AppUtil {
 	std::string findJVMDLLPath(bool log_enabled);
 
 	void enableConsole();
+
+	std::filesystem::path getExecutableModulePath();
+
 }
 
 

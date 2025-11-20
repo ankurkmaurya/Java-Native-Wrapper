@@ -83,11 +83,9 @@ int WINAPI wWinMain(_In_ HINSTANCE hInstance, _In_opt_ HINSTANCE hPrevInstance,
         _In_ PWSTR pCmdLine, _In_ int nCmdShow) {
 
     //Set the Current Working Directory as the directory from where the binary image has been launched
-    char exePath[MAX_PATH];
-    GetModuleFileNameA(NULL, exePath, MAX_PATH);
-    std::filesystem::path p(exePath);
-    std::filesystem::path executable_dir = p.parent_path();
-    std::filesystem::path executable_file_name = p.filename();
+    std::filesystem::path exeModulePath = AppUtil::getExecutableModulePath();
+    std::filesystem::path executable_dir = exeModulePath.parent_path();
+    std::filesystem::path executable_file_name = exeModulePath.filename();
     SetCurrentDirectory(executable_dir.c_str());
 
     std::string configFileName = StringUtil::replaceAll(StringUtil::convertLPWSTRToString(executable_file_name.c_str()), 
